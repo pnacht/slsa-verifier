@@ -136,7 +136,7 @@ $ go run ./cli/slsa-verifier <options>
 
 ### Download the binary
 
-Download the binary from the latest release at [https://github.com/slsa-framework/slsa-verifier/releases/tag/v2.0.2](https://github.com/slsa-framework/slsa-verifier/releases/tag/v2.0.1)
+Download the binary from the latest release at [https://github.com/slsa-framework/slsa-verifier/releases/tag/v2.0.2](https://github.com/slsa-framework/slsa-verifier/releases/tag/v2.0.2)
 
 Download the [SHA256SUM.md](https://github.com/slsa-framework/slsa-verifier/blob/main/SHA256SUM.md).
 
