@@ -41,6 +41,7 @@ jobs:
       #     path: dist/
 
       - name: Check documentation is up-to-date
-        if: ${{ github.event.label.name == 'release' }}
+        # if: ${{ contains(github.event.pull_request.body, '#label:release') }}
         run: |
-          echo "Hello World"
+          echo "${{ github.event.pull_request.body }}"
+          echo "${{ contains(github.event.pull_request.body, '#label:release') }}"
