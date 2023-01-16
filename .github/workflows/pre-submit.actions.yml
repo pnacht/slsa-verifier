@@ -43,4 +43,4 @@ jobs:
       - name: Check documentation is up-to-date
         if: ${{ github.event.label.name == 'release' }}
         run: |
-          echo "Hello World"
+          echo "Hello World!"
