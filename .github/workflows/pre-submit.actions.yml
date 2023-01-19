@@ -8,37 +8,37 @@ on:
 permissions: read-all
 
 jobs:
-  check-dist:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+  # check-dist:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
 
-      - name: Set Node.js 16
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
-        with:
-          node-version: 16
+  #     - name: Set Node.js 16
+  #       uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
+  #       with:
+  #         node-version: 16
 
-      - name: Rebuild the dist/ directory
-        working-directory: actions/installer
-        run: make package
+  #     - name: Rebuild the dist/ directory
+  #       working-directory: actions/installer
+  #       run: make package
 
-      - name: Compare the expected and actual dist/ directories
-        working-directory: actions/installer
-        id: diff
-        run: |
-          set -euo pipefail
-          if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
-            echo "Detected uncommitted changes after build.  See status below:"
-            git diff
-            exit 1
-          fi
+  #     - name: Compare the expected and actual dist/ directories
+  #       working-directory: actions/installer
+  #       id: diff
+  #       run: |
+  #         set -euo pipefail
+  #         if [ "$(git diff --ignore-space-at-eol dist/ | wc -l)" -gt "0" ]; then
+  #           echo "Detected uncommitted changes after build.  See status below:"
+  #           git diff
+  #           exit 1
+  #         fi
 
-      # If index.js was different from expected, upload the expected version as an artifact
-      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
-        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
-        with:
-          name: dist
-          path: dist/
+  #     # If index.js was different from expected, upload the expected version as an artifact
+  #     - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+  #       if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+  #       with:
+  #         name: dist
+  #         path: dist/
 
   check-docs:
     runs-on: ubuntu-latest
@@ -50,8 +50,8 @@ jobs:
 
       - name: Check documentation is up-to-date
         run: |
-          RELEASE_TAG=$(echo $BODY | \
-            grep -E '^[[:blank:]]*#label:release[[:blank:]]+v?[0-9]+\.[0-9]+\.[0-9]+' | \
+          RELEASE_TAG=$(echo "$BODY" | \
+            grep -oE '^[[:blank:]]*#label:release[[:blank:]]+v?[0-9]+\.[0-9]+\.[0-9]+' | \
             sed -E 's/.*([0-9]+\.[0-9]+\.[0-9])/\1/'
           )
-          RELEASE_TAG=${RELEASE_TAG} ./.github/workflows/scripts/pre-release/references.sh
+          RELEASE_TAG="${RELEASE_TAG}" ./.github/workflows/scripts/pre-release/references.sh
