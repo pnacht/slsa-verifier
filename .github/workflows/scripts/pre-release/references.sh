@@ -38,6 +38,15 @@ fi
 
 version="$version_txt"
 
+# Ensure version matches what's declared in the PR body
+if [[ "$version" != "$RELEASE_TAG" ]]; then
+    echo "SHA256SUM.md version doesn't match version declared in PR body"
+    echo "PR body: #label:release v$RELEASE_TAG"
+    echo "SHA256SUM.md: v$version"
+
+    exit 1
+fi
+
 major_version_sha256sum_md="$(sed -E 's/(.+)\..+\..+/\1/' <<< "$version")"
 
 ###
